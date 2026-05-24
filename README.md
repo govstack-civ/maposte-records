@@ -1,36 +1,92 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MaPoste — Portail National des Relevés Académiques
 
-## Getting Started
+Digital academic records retrieval service prototype for Côte d'Ivoire, built with Next.js 16 + Supabase.
 
-First, run the development server:
+## Setup (required before first use)
+
+### 1. Verify Supabase credentials
+
+Go to [app.supabase.com](https://app.supabase.com) → your project → **Settings → API**.
+
+Copy the **Project URL** and **anon public** key and update `.env.local`:
+
+```
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+```
+
+### 2. Run the database schema
+
+In your Supabase dashboard → **SQL Editor**, paste and run the contents of:
+
+```
+supabase/schema.sql
+```
+
+This creates all tables, enables RLS policies, and inserts the test citizen seed data.
+
+### 3. Seed test data (alternative)
+
+After running the schema SQL, you can also seed via the API route:
+
+```
+http://localhost:3000/api/setup
+```
+
+### 4. Start the dev server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Test credentials
 
-## Learn More
+| Field | Value |
+|-------|-------|
+| NNI | `10294857362` |
+| Name | Awa Koné |
+| OTP | Any 6-digit code (e.g. `123456`) |
+| PIN | Any 4–6 digit code |
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Application flows
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Route | Flow |
+|-------|------|
+| `/` | Landing — SMS notification simulation |
+| `/eligibility` | NNI lookup and eligibility check |
+| `/auth` | OTP authentication |
+| `/consent` | Institution consent form |
+| `/retrieve` | Record retrieval progress + review |
+| `/payment` | Payment method + PIN |
+| `/credentials` | E-signature + credential issuance |
+| `/share` | Share credential with recipient |
+| `/locker` | Digital locker dashboard |
+| `/verify/[token]` | Public credential verification |
+| `/api/setup` | Seed test data (GET) |
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Tech stack
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Frontend:** Next.js 16 (App Router), Tailwind CSS v4, TypeScript
+- **Backend:** Supabase (PostgreSQL + RLS)
+- **PDF:** jsPDF
+- **QR:** qrcode.react
+- **i18n:** Custom EN/FR string system (`src/lib/i18n.ts`)
+
+---
+
+## Language
+
+Toggle EN/FR using the top-right language switch on every screen.  
+Default: French. Preference stored in `localStorage` key `maposte_lang`.
+
+---
+
+*Powered by GovStack · République de Côte d'Ivoire*

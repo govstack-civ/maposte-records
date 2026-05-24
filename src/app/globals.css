@@ -1,26 +1,65 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-primary: #3333FF;
+  --color-primary-dark: #2222CC;
+  --color-primary-light: #E8E8FF;
+  --color-text-dark: #1A1A2E;
+  --color-background: #FFFFFF;
+  --color-success: #00C853;
+  --color-warning: #FFB300;
+  --color-error: #E8533F;
+  --color-surface: #F5F5F5;
+  --color-border: #E0E0E0;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: #FFFFFF;
+  color: #1A1A2E;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes checkmark {
+  0% { stroke-dashoffset: 100; }
+  100% { stroke-dashoffset: 0; }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+.otp-input {
+  width: 44px;
+  height: 52px;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  border: 2px solid #E0E0E0;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.otp-input:focus {
+  border-color: #3333FF;
+  box-shadow: 0 0 0 3px rgba(51, 51, 255, 0.15);
 }
